@@ -1,0 +1,31 @@
+{
+  "name": "geocode",
+  "version": "0.0.1",
+  "description": "Service that accepts a csv file of addresses and geocodes them",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jkahlina/geocode.git"
+  },
+  "keywords": [
+    "geocode"
+  ],
+  "author": "jkahlina",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jkahlina/geocode/issues"
+  },
+  "homepage": "https://github.com/jkahlina/geocode",
+  "dependencies": {
+    "busboy": "^0.2.9",
+    "express": "^4.9.5",
+    "line-reader": "^0.2.4",
+    "multer": "^0.1.4",
+    "request": "^2.44.0",
+    "simple-rate-limiter": "^0.2.3"
+  }
+}
