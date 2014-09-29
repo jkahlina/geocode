@@ -33,7 +33,12 @@ $(function() {
       },
       error: function(data) {
         showLoading(false);
-        $("#error").html(data.responseJSON.error).show();
+        var errorMsg = "Unknown error. Please try again later.";
+        if(data.responseJSON) {
+          errorMsg = data.responseJSON.error;
+        }
+        $("#errorMsg").html(errorMsg);
+        $("#error").show();
       }
     });
   });

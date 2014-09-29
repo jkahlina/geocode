@@ -31,6 +31,8 @@ geocoder.GeocodeRequest = function(req, res, service) {
   this._fileParseComplete = false;
   this._fileLineCount = 0;
   this._processedAddressCount = 0;
+
+  this._responded = false;
 };
 
 /**
@@ -40,7 +42,7 @@ geocoder.GeocodeRequest.prototype.process = function() {
   if(this.apiKey && this.filePath) {
     this._processFile(this.filePath);
   } else {
-    this._respondBadRequest("Please provide all form information.");
+    this._respondBadRequest("Ensure all form information is correctly provided.");
   }
 };
 
@@ -85,10 +87,23 @@ geocoder.GeocodeRequest.prototype._handleServiceResponse = function(error, respo
   if(error) {
     console.log(error);
   } else {
-    var self = this;
-    this.service.validateGeocode(body, function(item) {
-      self.geocodedAddresses.push(item);
-    });
+    switch(body.status) {
+      case "OK":
+        var self = this;
+        this.service.validateGeocode(body, function(item) {
+          self.geocodedAddresses.push(item);
+        });
+        break;
+      case "REQUEST_DENIED":
+        this._respondBadRequest("Unable to process geocode request. Ensure that the API key is correct.");
+        break;
+      case "OVER_QUERY_LIMIT":
+      case "UNKNOWN_ERROR":
+        this._respondServerError("Unable to send geocode request. Please try again later.");
+        break;
+      default:
+        break;
+    }
   }
 
   if(this._fileParseComplete
@@ -113,12 +128,15 @@ geocoder.GeocodeRequest.prototype._respondServerError = function(error) {
 };
 
 geocoder.GeocodeRequest.prototype._respond = function(status, body) {
-  var content = JSON.stringify(body);
-  this.res.writeHeader(status, {
-    'Content-Type': 'application/json',
-    'Content-Length': content.length
-  });
-  this.res.end(content);
+  if(!this._responded) {
+    this._responded = true;
+    var content = JSON.stringify(body);
+    this.res.writeHeader(status, {
+      'Content-Type': 'application/json',
+      'Content-Length': content.length
+    });
+    this.res.end(content);
+  }
 };
 
 
@@ -162,7 +180,8 @@ geocoder.GoogleGeocodeService.get = function(key, address, cb) {
  */
 geocoder.GoogleGeocodeService.validateGeocode = function(geocode, cb) {
   // 1. single result
-  if(geocode.hasOwnProperty("results") && geocode.results.length == 1) {
+  if(geocode
+    && geocode.hasOwnProperty("results") && geocode.results.length == 1) {
     var result = geocode.results[0];
 
     // 2. must be non-partial
