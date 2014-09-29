@@ -1,36 +1,64 @@
 <!DOCTYPE html>
-<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
-<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
-<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Geocode</title>
-    <meta name="description" content="">
+    <title>Geocoder</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <link rel="stylesheet" href="css/normalize.css">
+    <link rel="stylesheet" href="css/bootstrap.css">
     <link rel="stylesheet" href="css/main.css">
 </head>
 <body>
-<!--[if lt IE 7]>
-<p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
-<![endif]-->
 
-<h1>Geocoder</h1>
-
-<form method="post" enctype="multipart/form-data" action="/addresses">
-    <label>
-        Google API Key:
-        <input type="text" name="google_key">
-    </label>
-    <label>
-        Address File:
-        <input type="file" name="addresses">
-    </label>
-    <input type="submit">
-</form>
+<section class="container">
+    <div class="page-header">
+        <h1>Geocoder</h1>
+    </div>
+    <div id="error" class="alert alert-danger" hidden></div>
+    <div id="submission" class="panel panel-default">
+        <form id="form" class="panel-body">
+            <div class="form-group">
+                <label for="addresses">Address List File</label>
+                <input id="addresses" type="file" name="addresses">
+                <p class="help-block">Choose a '.csv' file with a list of addresses.</p>
+            </div>
+            <div class="form-group">
+                <label for="google_key">Google API Key</label>
+                <input id="google_key" class="form-control" type="text" name="google_key" placeholder="Enter a valid key">
+            </div>
+            <button type="submit" class="btn btn-primary">Geocode</button>
+        </form>
+    </div>
+    <div id="loading" class="panel panel-default" hidden>
+        <div class="panel-content">
+            <h3 class="loading-msg">Geocoding...</h3>
+            <div class="progress">
+                <div class="progress-bar progress-bar-striped active" role="progressbar">
+                    <span class="sr-only"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="results" class="panel panel-default" hidden>
+        <table class="table table-striped">
+            <colgroup>
+                <col style="width:10%">
+                <col style="width:70%">
+                <col style="width:10%">
+                <col style="width:10%">
+            </colgroup>
+            <thead>
+            <tr>
+                <th>#</th>
+                <th>Address</th>
+                <th>Latitude</th>
+                <th>Longitude</th>
+            </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
+</section>
 
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 <script>window.jQuery || document.write('<script src="js/lib/jquery-1.10.2.min.js"><\/script>')</script>

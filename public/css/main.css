@@ -97,21 +97,21 @@ textarea {
    Author's custom styles
    ========================================================================== */
 
+body {
+    background-color: lightblue;
+}
 
+.container {
+    width: 750px;
+}
 
+input[type="file"] {
+    width: 100%;
+}
 
-
-
-
-
-
-
-
-
-
-
-
-
+#loading {
+    padding: 2em;
+}
 
 /* ==========================================================================
    Helper classes
