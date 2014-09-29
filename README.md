@@ -1,19 +1,19 @@
 # Geocoder Node.js
 
-Geocoder is a Node.js server that accepts a csv file of addresses and uses the Google Geocoding API to geocode them.
+Geocoder is a Node.js server that accepts a 'csv' file of addresses and uses the Google Geocoding API to geocode them.
 
 ## Setup
 
 #### Node Version
 
-v0.10.32
+`v0.10.32`
 
 #### Install and Run
 
-'''
+```
 $ npm install
 $ npm start
-'''
+```
 
 ## Filters
 
