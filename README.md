@@ -1,5 +1,4 @@
 # Geocoder Node.js
-=======
 
 Geocoder is a Node.js server that accepts a csv file of addresses and uses the Google Geocoding API to geocode them.
 
